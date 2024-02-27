@@ -169,7 +169,6 @@ exports.postReset = async (req, res, next) => {
 exports.postNewPassword = async (req, res, next) => {
   const newPassword = req.body.password;
   const tokenId = req.body.tokenId;
-  console.log(tokenId);
 
   try {
     const user = await User.findOne({

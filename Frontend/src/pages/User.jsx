@@ -85,11 +85,15 @@ export default function User() {
   // Render the User component
   return (
     <div
-      className={`flex justify-center items-start m-12 h-screen ${
+      className={`flex justify-center items-start m-12 h-screen sm:flex-col sm:items-center sm:justify-start ${
         prompt ? "fadeIn" : ""
       }`}
     >
-      <div className={`bg-white rounded-lg p-8 ${prompt ? "fadeIn" : ""}`}>
+      <div
+        className={`bg-white rounded-lg p-8 ${
+          prompt ? "fadeIn" : ""
+        } sm:w-full md:w-96 lg:w-1/2 xl:w-1/3 overflow-hidden`}
+      >
         {/* Display user details */}
         <Input
           label="Name"

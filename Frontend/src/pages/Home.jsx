@@ -154,7 +154,7 @@ export default function Home() {
       {/* Rendering the workout form */}
       <form className="text-center mx-auto mt-20" onSubmit={handleSubmit}>
         {/* Form inputs for workout generation */}
-        <div className="grid grid-cols-3 gap-8 m-8">
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-8 m-8">
           {/* Fitness level selection */}
           <div className="mb-8">
             <p className="mb-6 text-lg">🎖️ What is your fitness level ?</p>
