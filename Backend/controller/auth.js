@@ -129,23 +129,28 @@ exports.postLogin = async (req, res, next) => {
 // Controller function for initiating password reset
 exports.postReset = async (req, res, next) => {
   try {
+    // Generate a random token for password reset
     const buffer = await randomBytesAsync(32);
-
     const token = buffer.toString("hex");
 
+    // Find user by email
     const user = await User.findOne({ email: req.body.email });
 
+    // If no user found, return an error
     if (!user) {
       const error = new Error("No user found.");
       error.statusCode = 401;
       throw error;
     }
 
+    // Set the reset token and its expiration time for the user
     user.resetToken = token;
-    user.resetTokenExpiration = Date.now() + 3600000;
+    user.resetTokenExpiration = Date.now() + 3600000; // Token expires in 1 hour
 
+    // Save the user with the updated reset information
     await user.save();
 
+    // Send an email with a password reset link
     transport.sendMail({
       to: req.body.email,
       from: "mayank@project-nebula.com",
@@ -156,8 +161,10 @@ exports.postReset = async (req, res, next) => {
       `,
     });
 
+    // Return success message
     res.status(200).json({ message: "Reset token generated successfully." });
   } catch (err) {
+    // Handle errors and pass them to the next middleware
     if (!err.statusCode) {
       err.statusCode = 500;
     }
@@ -171,19 +178,21 @@ exports.postNewPassword = async (req, res, next) => {
   const tokenId = req.body.tokenId;
 
   try {
+    // Find a user with a valid reset token and not expired
     const user = await User.findOne({
       resetToken: tokenId,
       resetTokenExpiration: { $gt: Date.now() },
     });
 
+    // If no user found or token is expired, return an error
     if (!user) {
       const error = new Error("Invalid or expired reset token.");
       error.statusCode = 400;
       throw error;
     }
 
+    // Check if the new password is different from the old one
     const isPasswordValid = await bcrypt.compare(newPassword, user.password);
-
     if (isPasswordValid) {
       const error = new Error(
         "New password must be different from the old password."
@@ -192,16 +201,19 @@ exports.postNewPassword = async (req, res, next) => {
       throw error;
     }
 
+    // Hash the new password and update the user's password and reset token information
     const hashedPassword = await bcrypt.hash(newPassword, 12);
-
     user.password = hashedPassword;
     user.resetToken = null;
     user.resetTokenExpiration = undefined;
 
+    // Save the user with the updated password and reset information
     await user.save();
 
+    // Return success message
     res.status(200).json({ message: "Password changed successfully." });
   } catch (err) {
+    // Handle errors and pass them to the next middleware
     if (!err.statusCode) {
       err.statusCode = 500;
     }
