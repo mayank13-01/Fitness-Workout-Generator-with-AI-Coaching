@@ -9,9 +9,9 @@ export default function Input({
 }) {
   // The component returns a structure containing a label and an input field
   return (
-    <label className="flex items-center justify-between mt-4 mb-4 text-brown">
+    <label className="flex items-center justify-between mt-4 mb-4 text-brown md:flex-row">
       {/* Input field with specified attributes */}
-      <p className="mr-8 text-xl">{label}</p>
+      <span className="text-xl mb-2 md:mb-0 md:mr-4">{label}</span>
       <input
         type={type}
         name={name}

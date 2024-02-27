@@ -25,7 +25,7 @@ export default function Login() {
       <div className="flex justify-center items-center m-0 h-screen">
         <Form
           method="POST"
-          className="p-16 bg-cream rounded-2xl shadow-2xl  text-center"
+          className="p-4 md:p-16 bg-cream rounded-2xl shadow-2xl text-center w-full md:w-auto"
         >
           <h2 className="text-center mb-8 text-3xl text-brown">Login</h2>
           {/* Displaying error message if present */}
@@ -51,9 +51,9 @@ export default function Login() {
           />
 
           {/* Reset and Submit buttons with loading spinner */}
-          <p className="flex justify-end gap-2 mt-8">
+          <div className="flex flex-col md:flex-row justify-end gap-2 mt-8">
             <button className="py-2 px-4 text-md underline rounded-md bg-transparent text-brown hover:text-beige">
-              <NavLink to="/reset">Forgot Password ?</NavLink>
+              <NavLink to="/reset">Forgot Password?</NavLink>
             </button>
 
             <button
@@ -67,7 +67,7 @@ export default function Login() {
                 "Login"
               )}
             </button>
-          </p>
+          </div>
         </Form>
       </div>
     </>

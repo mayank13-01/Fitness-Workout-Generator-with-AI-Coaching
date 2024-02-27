@@ -18,7 +18,7 @@ export default function Signup() {
     <div className="flex justify-center items-center m-0 h-screen">
       <Form
         method="POST"
-        className="p-16 bg-cream rounded-2xl shadow-lg text-center"
+        className="p-4 md:p-16 bg-cream rounded-2xl shadow-lg text-center w-full md:w-auto"
       >
         <h2 className="text-center mb-8 text-3xl text-brown">Signup</h2>
 
@@ -73,7 +73,7 @@ export default function Signup() {
         />
 
         {/* Reset and Submit buttons with loading spinner */}
-        <p className="flex justify-end gap-4 mt-8">
+        <div className="flex flex-col md:flex-row justify-end gap-4 mt-8">
           <button
             type="reset"
             className="py-2 px-4 text-xl rounded-md bg-transparent text-brown hover:text-beige"
@@ -92,7 +92,7 @@ export default function Signup() {
               "Signup"
             )}
           </button>
-        </p>
+        </div>
       </Form>
     </div>
   );
