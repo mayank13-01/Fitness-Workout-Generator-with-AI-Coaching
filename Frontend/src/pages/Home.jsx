@@ -1,6 +1,11 @@
 // Importing necessary React hooks and components from react-router-dom and other libraries
 import { useState, useRef, useEffect } from "react";
-import { useRouteLoaderData } from "react-router-dom";
+import {
+  useRouteLoaderData,
+  Form,
+  useActionData,
+  useNavigation,
+} from "react-router-dom";
 import { PulseSpinner } from "react-spinners-kit";
 import { toast } from "react-toastify";
 
@@ -12,9 +17,11 @@ import { goals, often, types, levels } from "../data";
 export default function Home() {
   // State variables for slider value, workout data, modal visibility, and email status
   const [sliderValue, setSliderValue] = useState(28);
-  const [dataAI, setDataAI] = useState("");
-  const [openModal, setOpenModal] = useState(false);
   const [emailSent, setEmailSent] = useState(false);
+
+  const data = useActionData();
+  const navigation = useNavigation();
+  const isSubmitting = navigation.state === "submitting";
 
   // Retrieving token from route loader data
   const token = useRouteLoaderData("root");
@@ -42,7 +49,7 @@ export default function Home() {
           Authorization: "Bearer " + token,
           "Content-type": "application/json",
         },
-        body: JSON.stringify({ dataAI: dataAI }),
+        body: JSON.stringify({ dataAI: data.text }),
       });
 
       // Handling server response
@@ -67,71 +74,20 @@ export default function Home() {
     }
   }
 
-  // Asynchronous function to handle form submission for generating workout
-  async function handleSubmit(event) {
-    event.preventDefault();
-
-    // Creating FormData object from the form
-    const fd = new FormData(event.target);
-    const acquisitionChannel = fd.getAll("acquisition");
-    const data = Object.fromEntries(fd.entries());
-    data.acquisition = acquisitionChannel;
-
-    setDataAI("");
-    try {
-      // Opening the modal before fetching the workout data
-      setOpenModal(true);
-      const prompt = `Generate a detailed workout with description for a ${
-        data.level
-      } level with the goal to ${data.goal.toLowerCase()}, focusing on ${data.type.toLowerCase()} workouts, ${data.often.toLowerCase()} and covering ${sliderValue} days. Gender: ${
-        data.gender
-      }, Age: ${data.age}, Current Weight: ${
-        data["current-weight"]
-      } kg, Target Weight: ${data["target-weight"]} kg.`;
-
-      // Fetching workout data from the server
-      const response = await fetch("http://localhost:8080/submit-workout", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({ prompt }),
-      });
-
-      // Handling server response for workout data
-      if (!response.ok) {
-        throw new Error("Oops, there was an error while retrieving the data.");
-      }
-
-      // Displaying generated workout data
-      const resData = await response.json();
-      const text = resData.text;
-      setDataAI(text);
-    } catch (err) {
-      // Handling errors during workout generation
-      console.error("Error during workout generation:", err);
-      toast.error("Failed to generate workout. Please try again.", {
-        position: "top-center",
-      });
-    }
-    // Closing the modal after fetching the workout data
-    setOpenModal(false);
-  }
-
   useEffect(() => {
-    if (dataAI) {
+    if (data && data.text) {
       dataRef.current.scrollIntoView({ behavior: "smooth" });
     }
-  }, [dataAI]);
+  }, [data]);
 
   // Rendering the Home component UI
   return (
     <div>
       {/* Rendering the Modal component */}
-      <Modal open={openModal} />
+      <Modal open={isSubmitting} />
 
       {/* Rendering button to receive workout details via email */}
-      {dataAI && token && (
+      {data && data.text && token && (
         <div className="text-center">
           <p className="mt-4 text-xl">
             Tap to receive your personalized workout plan via email. We'll send
@@ -152,8 +108,13 @@ export default function Home() {
       )}
 
       {/* Rendering the workout form */}
-      <form className="text-center mx-auto mt-20" onSubmit={handleSubmit}>
+      <Form className="text-center mx-auto mt-20" method="POST">
         {/* Form inputs for workout generation */}
+        {data &&
+          data.message &&
+          toast.error(data.message, {
+            position: "top-center",
+          })}
         <div className="grid grid-cols-1 md:grid-cols-3 gap-8 m-8">
           {/* Fitness level selection */}
           <div className="mb-8">
@@ -334,7 +295,7 @@ export default function Home() {
         )}
 
         {/* Rendering generated workout plan */}
-        {dataAI && token && (
+        {data && data.text && token && (
           <div
             ref={dataRef}
             className="m-16 whitespace-pre-wrap bg-cream rounded-md"
@@ -343,11 +304,45 @@ export default function Home() {
               Workout Plan
             </h2>
             <div className="p-12 font-semibold text-brown text-lg">
-              {dataAI}
+              {data.text}
             </div>
           </div>
         )}
-      </form>
+      </Form>
     </div>
   );
+}
+
+export async function action({ request }) {
+  const data = await request.formData();
+  const prompt = `Generate a detailed workout with description for a ${data.get(
+    "level"
+  )} level with the goal to ${data
+    .get("goal")
+    .toLowerCase()}, focusing on ${data
+    .get("type")
+    .toLowerCase()} workouts, ${data
+    .get("often")
+    .toLowerCase()} and covering ${data.get("days")} days. Gender: ${data.get(
+    "gender"
+  )}, Age: ${data.get("age")}, Current Weight: ${data.get(
+    "current-weight"
+  )} kg, Target Weight: ${data.get("target-weight")} kg.`;
+
+  const response = await fetch("http://localhost:8080/submit-workout", {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify({ prompt }),
+  });
+
+  if (!response.ok) {
+    throw json(
+      { message: " Oops, there was an error while retrieving the data." },
+      { status: 500 }
+    );
+  }
+
+  return response;
 }

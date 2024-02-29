@@ -14,6 +14,7 @@ import NewPassword from "./pages/NewPassword";
 // Importing utility functions related to authentication
 import { tokenLoader } from "./util/auth";
 import { checkAuthToken } from "./util/auth";
+import { action as homeAction } from "./pages/Home";
 import { action as loginAction } from "./pages/Login";
 import { action as signupAction } from "./pages/Signup";
 import { action as logoutAction } from "./pages/Logout";
@@ -30,7 +31,7 @@ const router = createBrowserRouter([
     loader: tokenLoader, // Loader function to load authentication token
     // Nested routes for the root path
     children: [
-      { index: true, element: <Home /> }, // Home page as the default index
+      { index: true, element: <Home />, action: homeAction }, // Home page as the default index
       {
         path: "login",
         element: <Login />,
