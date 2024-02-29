@@ -19,6 +19,7 @@ export default function Home() {
   const [sliderValue, setSliderValue] = useState(28);
   const [emailSent, setEmailSent] = useState(false);
 
+  // Accessing data from route and navigation hooks
   const data = useActionData();
   const navigation = useNavigation();
   const isSubmitting = navigation.state === "submitting";
@@ -26,6 +27,7 @@ export default function Home() {
   // Retrieving token from route loader data
   const token = useRouteLoaderData("root");
 
+  // Ref for scrolling to data on update
   const dataRef = useRef();
 
   // Event handler for slider value change
@@ -62,9 +64,7 @@ export default function Home() {
       // Displaying success toast on successful email sending
       const resData = await response.json();
       setEmailSent(false);
-      toast.success(resData.message, {
-        position: "top-center",
-      });
+      toast.success(resData.message, { position: "top-center" });
     } catch (err) {
       // Handling errors during email sending
       console.error("Failed to send email:", err);
@@ -74,6 +74,7 @@ export default function Home() {
     }
   }
 
+  // Effect for scrolling to data on update
   useEffect(() => {
     if (data && data.text) {
       dataRef.current.scrollIntoView({ behavior: "smooth" });
@@ -112,9 +113,7 @@ export default function Home() {
         {/* Form inputs for workout generation */}
         {data &&
           data.message &&
-          toast.error(data.message, {
-            position: "top-center",
-          })}
+          toast.error(data.message, { position: "top-center" })}
         <div className="grid grid-cols-1 md:grid-cols-3 gap-8 m-8">
           {/* Fitness level selection */}
           <div className="mb-8">
@@ -216,7 +215,7 @@ export default function Home() {
           {/* Workout type selection */}
           <div className="mb-8">
             <p className="mb-6 text-lg">
-              🏋🏻‍♀️ What type of workout do you prefer ?{" "}
+              🏋🏻‍♀️ What type of workout do you prefer ?
             </p>
             <div className="radio-inputs">
               {types.map((type, index) => {
@@ -239,7 +238,7 @@ export default function Home() {
           {/* Days to cover input */}
           <div className="mb-8">
             <p className="mb-6 text-lg">
-              📅 How many days should the workout plan cover ?{" "}
+              📅 How many days should the workout plan cover ?
             </p>
             <input
               type="range"
@@ -253,14 +252,14 @@ export default function Home() {
               required
               className="w-64 appearance-none bg-beige h-2 rounded-md focus:outline-none "
             />
-            <br></br>
+            <br />
             <p className="text-lg">{sliderValue}</p>
           </div>
 
           {/* Workout frequency selection */}
           <div className="mb-8">
             <p className="mb-6 text-lg">
-              📈 How often do you want to workout ?{" "}
+              📈 How often do you want to workout ?
             </p>
             <select
               name="often"
@@ -268,7 +267,7 @@ export default function Home() {
               required
               className="text-brown p-3 w-40 text-left rounded-lg bg-gray-300 shadow-2xl transition duration-300"
             >
-              <option value="">Frequency </option>
+              <option value="">Frequency</option>
               {often.map((often, index) => {
                 return (
                   <option value={often.value} key={index}>
@@ -313,6 +312,7 @@ export default function Home() {
   );
 }
 
+// Action function to handle form submission
 export async function action({ request }) {
   const data = await request.formData();
   const prompt = `Generate a detailed workout with description for a ${data.get(
