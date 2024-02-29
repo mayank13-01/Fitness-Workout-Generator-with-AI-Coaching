@@ -101,7 +101,11 @@ export default function User() {
           name="email"
           id="email"
           disabled
-          value={userDetails.firstName + " " + userDetails.lastName}
+          value={
+            userDetails && userDetails.length === 0
+              ? "Loading"
+              : userDetails.firstName + " " + userDetails.lastName
+          }
         />
         <Input
           label="Email"
@@ -109,7 +113,7 @@ export default function User() {
           name="email"
           id="email"
           disabled
-          value={userDetails.email}
+          value={userDetails.email || "Loading"}
         />
 
         {/* Prompt to enable notifications */}
