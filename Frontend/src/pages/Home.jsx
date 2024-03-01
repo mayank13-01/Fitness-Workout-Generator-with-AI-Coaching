@@ -100,7 +100,7 @@ export default function Home() {
             onClick={handleReceive}
           >
             {emailSent ? (
-              <PulseSpinner size={60} color="#EEEEEE" />
+              <PulseSpinner size={60} color="#222831" />
             ) : (
               "Click here"
             )}

@@ -7,7 +7,7 @@
 @tailwind utilities;
 
 body {
-  background: url("background.jpg");
+  background: url("D:\Fitness-Workout-Generator-with-AI-Coaching\Frontend\src\assets\background.jpg");
   font-family: "Quicksand";
   color: white;
   font-weight: 500;

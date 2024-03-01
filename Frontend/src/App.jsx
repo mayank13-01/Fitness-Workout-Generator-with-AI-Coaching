@@ -10,6 +10,7 @@ import Signup from "./pages/Signup";
 import User from "./pages/User";
 import Reset from "./pages/Reset";
 import NewPassword from "./pages/NewPassword";
+import ResetLayout from "./pages/ResetLayout";
 
 // Importing utility functions related to authentication
 import { tokenLoader } from "./util/auth";
@@ -50,6 +51,7 @@ const router = createBrowserRouter([
       },
       {
         path: "reset",
+        element: <ResetLayout />,
         children: [
           {
             index: true,
