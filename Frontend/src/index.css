@@ -7,11 +7,10 @@
 @tailwind utilities;
 
 body {
-  background: url("background.jpg") center/cover no-repeat;
+  background: url("background.jpg");
   font-family: "Quicksand";
   color: white;
   font-weight: 500;
-  height: 100vh;
 }
 
 @media (max-width: 1024px) {

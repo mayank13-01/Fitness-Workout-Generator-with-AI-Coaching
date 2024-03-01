@@ -96,7 +96,7 @@ export default function Home() {
           </p>
           <button
             type="submit"
-            className="mt-4 py-2 px-4 text-lg text-cream rounded-md bg-brown cursor-pointer transition-all hover:bg-beige hover:text-cream  focus:outline-none disabled:opacity-50 disabled:bg-brown disabled:text-gray-500"
+            className="mt-4 py-2 px-4 text-lg text-brown rounded-md bg-cream cursor-pointer transition-all hover:bg-beige hover:text-cream  focus:outline-none disabled:opacity-50 disabled:bg-brown disabled:text-gray-500"
             onClick={handleReceive}
           >
             {emailSent ? (
