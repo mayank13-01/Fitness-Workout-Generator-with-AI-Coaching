@@ -10,8 +10,14 @@ body {
   background: url("background.jpg") center/cover no-repeat;
   font-family: "Quicksand";
   color: white;
-  object-fit: cover;
   font-weight: 500;
+  height: 100vh;
+}
+
+@media (max-width: 1024px) {
+  body {
+    height: 100%;
+  }
 }
 
 input[type="range"]::-webkit-slider-thumb {
