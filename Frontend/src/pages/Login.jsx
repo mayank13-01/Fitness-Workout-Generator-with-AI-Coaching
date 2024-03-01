@@ -27,7 +27,9 @@ export default function Login() {
           method="POST"
           className="p-4 md:p-16 bg-cream rounded-2xl shadow-2xl text-center w-full md:w-auto"
         >
-          <h2 className="text-center mb-8 text-3xl text-brown">Login</h2>
+          <h2 className="text-center mb-8 text-5xl font-black text-brown">
+            Login
+          </h2>
           {/* Displaying error message if present */}
           {data && data.message && (
             <p className="text-red text-xl py-2">{data.message}</p>

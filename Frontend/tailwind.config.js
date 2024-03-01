@@ -19,6 +19,7 @@ export default {
       fontFamily: {
         lora: ["Lora", "serif"],
         oswald: ["Oswald", "sans-serif"],
+        quicksand: ["Quicksand", "sans-serif"],
       },
     },
   },

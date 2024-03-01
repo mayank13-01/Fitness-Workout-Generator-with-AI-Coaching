@@ -20,7 +20,9 @@ export default function Signup() {
         method="POST"
         className="p-4 md:p-16 bg-cream rounded-2xl shadow-lg text-center w-full md:w-auto"
       >
-        <h2 className="text-center mb-8 text-3xl text-brown">Signup</h2>
+        <h2 className="text-center mb-8 text-5xl font-black text-brown">
+          Signup
+        </h2>
 
         {/* Displaying error or success message */}
         {data && data.message && (

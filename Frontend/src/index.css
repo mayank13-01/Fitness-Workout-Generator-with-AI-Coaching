@@ -1,14 +1,17 @@
 @import url("https://fonts.googleapis.com/css2?family=Lora:ital,wght@0,400..700;1,400..700&display=swap");
 @import url("https://fonts.googleapis.com/css2?family=Oswald:wght@200..700&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Quicksand:wght@300..700&family=Roboto:ital,wght@0,100;0,300;0,400;0,500;0,700;0,900;1,100;1,300;1,400;1,500;1,700;1,900&display=swap");
 
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
 
 body {
-  background: linear-gradient(to right, #222831, #0f383a);
-  font-family: "Lora";
+  background: url("background.jpg") center/cover no-repeat;
+  font-family: "Quicksand";
   color: white;
+  object-fit: cover;
+  font-weight: 500;
 }
 
 input[type="range"]::-webkit-slider-thumb {
