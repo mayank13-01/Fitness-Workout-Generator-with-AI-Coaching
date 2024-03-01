@@ -6,7 +6,7 @@
 @tailwind utilities;
 
 body {
-  background: linear-gradient(to right, #222831, #176f74);
+  background: linear-gradient(to right, #222831, #0f383a);
   font-family: "Lora";
   color: white;
 }
