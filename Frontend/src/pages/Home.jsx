@@ -329,6 +329,8 @@ export async function action({ request }) {
     "current-weight"
   )} kg, Target Weight: ${data.get("target-weight")} kg.`;
 
+  console.log(prompt);
+
   const response = await fetch("http://localhost:8080/submit-workout", {
     method: "POST",
     headers: {

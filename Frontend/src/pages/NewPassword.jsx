@@ -55,7 +55,7 @@ export async function action({ request }) {
     body: JSON.stringify({ password: password, tokenId: tokenId }),
   });
 
-  if (response.status === 422 || response.status === 401) {
+  if (response.status === 400) {
     return response;
   }
 
